@@ -2,7 +2,7 @@
   "name": "jobchaser",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://johantran02.github.io/jobchaser/",
+  "homepage": "https://johantran02.github.io/jobchaser/index.html",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",
