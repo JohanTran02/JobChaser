@@ -1,20 +1,20 @@
 import Menu from './compontents/Menu';
-import JobCard from './compontents/Jobcard';
+import JobCards from './compontents/Jobcards';
 import useFetch from './fetch';
 import './App.css';
 
 function App() {
-  const [data] = useFetch("src/data.json")
-  if (!data) return;
-  console.log(data);
+  const { data } = useFetch("data.json");
 
   return (
     <>
       <main className='h-full'>
         <Menu></Menu>
-        <ul className='flex flex-col gap-4 mt-10'>
-          <JobCard></JobCard>
-        </ul>
+        {
+          <ul className='flex flex-col gap-4 mt-10'>
+            {data && data ? <JobCards jobs={data}></JobCards> : <p>Data loading...</p>}
+          </ul>
+        }
       </main>
     </>
   )

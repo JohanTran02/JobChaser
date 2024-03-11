@@ -1,5 +1,5 @@
 export type Job = {
-    id?: string,
+    id?: number,
     company: string,
     logo: string,
     position: string,
@@ -10,4 +10,8 @@ export type Job = {
     location: string,
     languages?: string[],
     tools?: string[]
+}
+
+export type JobsList = {
+    jobs: Job[];
 }
