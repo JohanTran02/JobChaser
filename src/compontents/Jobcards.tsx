@@ -1,9 +1,9 @@
-import { JobsList } from "../job.d";
+import { Job } from "../job.d";
 
-export function JobCards({ jobs }: JobsList) {
+export function JobCards({ jobs }: { jobs: Job[] }) {
     return (
         <>
-            {jobs.map((job) => {
+            {jobs.map((job: Job) => {
                 return <li key={job.id} className="w-1/2">
                     <article className="flex flex-col gap-1 bg-slate-100 text-black rounded-md p-2">
                         <div className="flex justify-between">
@@ -20,4 +20,6 @@ export function JobCards({ jobs }: JobsList) {
     );
 }
 
+//gammal kod
+// jobs : Job[] { ...jobsList }: { jobs: Job[] }
 export default JobCards;

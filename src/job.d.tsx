@@ -1,4 +1,4 @@
-export type Job = {
+export interface Job {
     id?: number,
     company: string,
     logo: string,
@@ -10,8 +10,4 @@ export type Job = {
     location: string,
     languages?: string[],
     tools?: string[]
-}
-
-export type JobsList = {
-    jobs: Job[];
 }
