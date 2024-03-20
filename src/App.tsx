@@ -13,7 +13,7 @@ function App() {
 
   return (
     <>
-      <main className='h-full'>
+      <main className='h-full flex flex-col'>
         <NavBar />
         <Routes>
           <Route path='/JobChaser/' element={<Home />} />
