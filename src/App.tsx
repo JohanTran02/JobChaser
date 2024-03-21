@@ -1,15 +1,15 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import { Jobs } from "./pages/Jobs"
+import { Routes, Route } from "react-router-dom";
+// import { Jobs } from "./pages/Jobs"
 import { NoPage } from "./pages/NoPage"
 import { SignIn } from "./pages/SignIn";
 import { SignUp } from "./pages/SignUp"
 import { Home } from './pages/Home';
 import NavBar from "./components/NavBar"
-import useFetch from './Fetch';
+// import useFetch from './Fetch';
 
 function App() {
 
-  const data = useFetch("data.json");
+  // const data = useFetch("data.json");
 
   return (
     <>
@@ -17,10 +17,10 @@ function App() {
         <NavBar />
         <Routes>
           <Route path='/JobChaser/' element={<Home />} />
-          <Route path='/JobChaser/Jobs' element=
+          {/* <Route path='/JobChaser/Jobs' element=
             {
               data && data ? <Jobs jobs={data} /> : <Navigate to="/JobChaser/NoPage" replace />
-            } />
+            } /> */}
           <Route path='/JobChaser/SignIn' element={<SignIn />} />
           <Route path='/JobChaser/Signup' element={<SignUp />} />
           <Route path="*" element={<NoPage />} />
