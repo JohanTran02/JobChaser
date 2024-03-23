@@ -6,6 +6,7 @@ import JobCards from "../components/JobCards";
 export function Jobs({ jobs }: { jobs: Job[] }) {
     const [input, setInput] = useState('');
 
+
     const search = (e: React.ChangeEvent<HTMLInputElement>): void => {
         e.preventDefault();
         setInput(e.target.value);

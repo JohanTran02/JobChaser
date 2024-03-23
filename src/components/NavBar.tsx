@@ -1,17 +1,21 @@
+import { MouseEventHandler } from "react";
 import { Outlet, Link } from "react-router-dom"
 
-export function NavBar() {
+export function NavBar({ changeTheme }: { changeTheme: MouseEventHandler }) {
     return (
         <>
-            <nav className="flex">
-                <ul>
-                    <li><Link to="/JobChaser/">Home</Link></li>
-                    <li><Link to="/JobChaser/Jobs">Jobs</Link></li>
-                    <li><Link to="/JobChaser/SignUp">Sign Up</Link></li>
-                    <li><Link to="/JobChaser/SignIn">Sign in</Link></li>
-                </ul>
-            </nav>
-            <Outlet />
+            <header className="flex">
+                <nav className="flex-1">
+                    <ul className="flex flex-row">
+                        <li><Link to="/JobChaser/">Home</Link></li>
+                        <li><Link to="/JobChaser/Jobs">Jobs</Link></li>
+                        <li><Link to="/JobChaser/SignUp">Sign Up</Link></li>
+                        <li><Link to="/JobChaser/SignIn">Sign in</Link></li>
+                    </ul>
+                </nav>
+                <button onClick={(e) => changeTheme(e)}>Change theme</button>
+                <Outlet />
+            </header>
         </>
     )
 }

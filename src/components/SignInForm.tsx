@@ -11,6 +11,7 @@ export default function SignInForm() {
         handleSubmit,
         formState: { errors }
     } = useForm<IFormInput>();
+
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
         console.log(data)
     };
@@ -28,7 +29,7 @@ export default function SignInForm() {
                                 message: "Invalid email adress"
                             }
                         })} />
-                {errors.email && (<span className="text-red-500">{errors.email?.message}</span>)}
+                {errors.email && (<span className="text-red-500">{errors.email.message}</span>)}
                 <label htmlFor="password">Password:</label>
                 <input id="password" type="password" placeholder="Password"
                     {...register("password",
@@ -39,7 +40,7 @@ export default function SignInForm() {
                                 message: "Password must be at least 8 characters"
                             }
                         })} />
-                {errors.password && (<span className="text-red-500">{errors.password?.message}</span>)}
+                {errors.password && (<span className="text-red-500">{errors.password.message}</span>)}
                 <button type="submit" className="bg-blue-400">Sign In</button>
             </form>
         </>
