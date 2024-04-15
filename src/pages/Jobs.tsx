@@ -3,8 +3,9 @@ import Menu from "../components/Menu";
 import { Job } from "../job.d";
 import JobCards from "../components/JobCards";
 
-export function Jobs({ jobs }: { jobs: Job[] }) {
+export default function Jobs({ jobs }: { jobs: Job[] }) {
     const [input, setInput] = useState('');
+
 
     const search = (e: React.ChangeEvent<HTMLInputElement>): void => {
         e.preventDefault();
@@ -22,6 +23,4 @@ export function Jobs({ jobs }: { jobs: Job[] }) {
         </>
     )
 }
-
-export default Jobs;
 

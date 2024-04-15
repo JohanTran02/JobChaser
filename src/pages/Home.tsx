@@ -1,9 +1,7 @@
-export function Home() {
+export default function Home() {
     return (
         <>
             <p>Home</p>
         </>
     )
 }
-
-export default Home;

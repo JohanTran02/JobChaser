@@ -1,17 +1,33 @@
+import { MouseEventHandler, useContext } from "react";
 import { Outlet, Link } from "react-router-dom"
+import { auth, signOut } from "../firebase-config";
+import { AuthContext } from "../context/AuthContext";
 
-export function NavBar() {
+export function NavBar({ changeTheme }: { changeTheme: MouseEventHandler }) {
+    const user = useContext(AuthContext)
+    console.log(user);
+
     return (
         <>
-            <nav className="flex">
-                <ul>
-                    <li><Link to="/JobChaser/">Home</Link></li>
-                    <li><Link to="/JobChaser/Jobs">Jobs</Link></li>
-                    <li><Link to="/JobChaser/SignUp">Sign Up</Link></li>
-                    <li><Link to="/JobChaser/SignIn">Sign in</Link></li>
-                </ul>
-            </nav>
-            <Outlet />
+            <header className="flex">
+                <nav className="flex-1">
+                    <ul className="flex flex-row">
+                        <li><Link to="/JobChaser/">Home</Link></li>
+                        <li><Link to="/JobChaser/Jobs">Jobs</Link></li>
+
+                        {user ?
+                            <li>
+                                <Link to="/JobChaser/" onClick={() => signOut(auth)}>Sign Out</Link>
+                            </li> :
+                            <>
+                                <li><Link to="/JobChaser/SignUp">Sign Up</Link></li>
+                                <li><Link to="/JobChaser/SignIn">Sign in</Link></li>
+                            </>}
+                    </ul>
+                </nav>
+                <button onClick={(e) => changeTheme(e)}>Change theme</button>
+                <Outlet />
+            </header>
         </>
     )
 }
