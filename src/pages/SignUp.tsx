@@ -1,9 +1,34 @@
-export function SignUp() {
+import { SubmitHandler } from "react-hook-form";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase-config";
+import Form from "../components/Form";
+import { useNavigate } from "react-router-dom";
+
+interface IFormInput {
+    email: string;
+    password: string;
+}
+
+export default function SignUp() {
+    const navigate = useNavigate();
+    const signUp: SubmitHandler<IFormInput> = ({ email, password }) => {
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed up 
+                const user = userCredential.user;
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.error(`${errorCode} : ${errorMessage}`)
+                alert("Email already registered.")
+            });
+        navigate("/JobChaser/");
+    };
     return (
         <>
             <p>Sign Up</p>
+            <Form sign={"Sign Up"} formAction={signUp} />
         </>
     )
 }
-
-export default SignUp;

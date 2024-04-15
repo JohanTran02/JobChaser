@@ -1,29 +1,30 @@
 import { Routes, Route } from "react-router-dom";
-import { Jobs } from "./pages/Jobs"
-import { NoPage } from "./pages/NoPage"
-import { SignIn } from "./pages/SignIn";
-import { SignUp } from "./pages/SignUp"
-import { Home } from './pages/Home';
+import Jobs from "./pages/Jobs"
+import NoPage from "./pages/NoPage"
+import SignUp from "./pages/SignUp";
+import SignIn from "./pages/SignIn";
+import Home from './pages/Home';
 import NavBar from "./components/NavBar"
 import useFetch from './Fetch';
 import { useState } from "react";
 import { ThemeContext } from "./context/ThemeContext";
-import {auth} from "./firebase-config";
 
 function App() {
+
+  //Istället för att ha hela den strängen testa att ha theme med värde dark eller light 
+  //Lägg sedan exempelvis dark:bg-slate-800 dark:text-white för respektive komponent
   const [theme, setTheme] = useState(`dark:bg-slate-800 dark:text-white`);
   const data = useFetch("data.json");
+
+  // dark:text-white light:text-black
 
   const body = document.querySelector("body") as HTMLBodyElement;
   body.className = theme.split(" ")[0];
 
   const ChangeTheme = (): void => {
-    setTheme(theme === `dark:bg-slate-800 dark:text-white` ? `light:bg-slate-400 light:text-black` : `dark:bg-slate-800 dark:text-white`);
+    setTheme(theme === `dark:bg-slate-800 dark:text-white` ? `light:bg-slate-400 light:text-light` : `dark:bg-slate-800 dark:text-white`);
     body.className = theme.split(" ")[0];
   }
-
-  console.log(auth);
-  
 
   return (
     <>
@@ -31,6 +32,7 @@ function App() {
         <main className={`min-h-screen ${theme}`}>
           <NavBar changeTheme={ChangeTheme} />
           <Routes>
+
             <Route path='/JobChaser/' element={<Home />} />
             <Route path='/JobChaser/Jobs' element=
               {
@@ -40,7 +42,6 @@ function App() {
             <Route path='/JobChaser/Signup' element={<SignUp />} />
             <Route path="*" element={<NoPage />} />
           </Routes>
-
         </main>
       </ThemeContext.Provider>
     </>
