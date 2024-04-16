@@ -9,5 +9,5 @@ export interface Job {
     contract: string,
     location: string,
     languages?: string[],
-    tools?: string[]
+    tools: string[]
 }
