@@ -19,15 +19,20 @@ const initialState: JobState = {
     status: "idle",
 }
 
+function wait(seconds: number) {
+    return new Promise(resolve => setTimeout(resolve, seconds * 1000));
+}
+
 export const fetchJobs = createAsyncThunk(
     "jobs/fetchBySearch",
     async (search: string) => {
+        await wait(5);
         //Lägg in en endpoint som template literal istället för search?
         const response = await fetch(`https://jobsearch.api.jobtechdev.se/search?q=${search}`)
         const json = await response.json();
         const data: JobTest[] = json.hits;
         return data;
-    },
+    }
 )
 
 //Ändra fetch funktionen till en createasyncthunk
@@ -56,7 +61,7 @@ export const JobSlice = createSlice({
         builder.addCase(fetchJobs.pending, (state) => {
             state.status = "loading";
         })
-        builder.addCase(fetchJobs.fulfilled, (state, action) => {
+        builder.addCase(fetchJobs.fulfilled, (state, action: PayloadAction<JobTest[]>) => {
             state.status = "fulfilled";
             state.jobs = action.payload;
         })

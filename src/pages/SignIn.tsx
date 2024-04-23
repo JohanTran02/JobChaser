@@ -12,11 +12,7 @@ export default function SignIn() {
     const navigate = useNavigate();
     const signIn: SubmitHandler<IFormInput> = ({ email, password }) => {
         signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed In
-                const user = userCredential.user;
-            })
-            .catch((error) => {
+            .then().catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.error(`${errorCode} : ${errorMessage}`)
