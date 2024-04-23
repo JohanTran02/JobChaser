@@ -1,30 +1,50 @@
-// import { useState } from "react";
 import Menu from "../components/Menu";
-import { Job } from "../job.d";
 import JobCards from "../components/JobCards";
 import { useDispatch, useSelector } from "react-redux";
-import { setInput } from "../slices/jobSlice";
-import { RootState } from "../redux/store";
+import { fetchJobs, setInput, setSearchQuery } from "../slices/jobSlice";
+import { AppDispatch, RootState } from "../redux/store";
+import { useEffect } from "react";
+import Spinner from "../components/Spinner";
 
-export default function Jobs({ jobs }: { jobs: Job[] }) {
-    // const [input, setInput] = useState('');
-    const { input, tools } = useSelector((state: RootState) => state.jobs)
-    const dispatch = useDispatch();
+export default function Jobs() {
+    const { input, jobs, searchQuery, status } = useSelector((state: RootState) => state.jobs)
+    const dispatch = useDispatch<AppDispatch>();
+
+    useEffect(() => {
+        if (status === "idle") {
+            dispatch(fetchJobs(searchQuery))
+        }
+    }, [searchQuery, status, dispatch])
 
     const search = (e: React.ChangeEvent<HTMLInputElement>): void => {
         e.preventDefault();
-        dispatch(setInput(e.target.value));
+        const searchValue = e.target.value;
+        dispatch(setInput(searchValue));
     }
 
-    const filteredJobs = jobs.filter((job) => job.company.toLowerCase().includes(input.toLowerCase()) && job.tools.join("").toLowerCase().includes(tools.join("").toLowerCase()));
+    const submit = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        e.preventDefault();
+        dispatch(setSearchQuery(input));
+    }
+
+    let content;
+
+    if (status === "loading") {
+        content = <Spinner />
+    } else if (status === "fulfilled") {
+        content = jobs.map(job => (
+            <JobCards key={job.id} job={job} />
+        ));
+    }
 
     return (
         <>
-            <Menu onSearch={search} input={input} />
+            <Menu onSubmit={submit} onSearch={search} input={input} />
             <ul className='flex flex-col gap-4 mt-10'>
-                {jobs && jobs ? <JobCards jobs={filteredJobs} /> : <p>Data loading...</p>}
+                {content}
             </ul>
         </>
     )
 }
 
+// { jobs }: { jobs: Job[] }

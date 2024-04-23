@@ -5,7 +5,6 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Home from './pages/Home';
 import NavBar from "./components/NavBar"
-import useFetch from './Fetch';
 import { useState } from "react";
 import { ThemeContext } from "./context/ThemeContext";
 
@@ -14,7 +13,7 @@ function App() {
   //Istället för att ha hela den strängen testa att ha theme med värde dark eller light 
   //Lägg sedan exempelvis dark:bg-slate-800 dark:text-white för respektive komponent
   const [theme, setTheme] = useState(`dark:bg-slate-800 dark:text-white`);
-  const data = useFetch("data.json");
+  // const data = useFetch("data.json");
 
   // dark:text-white light:text-black
 
@@ -32,12 +31,8 @@ function App() {
         <main className={`min-h-screen ${theme}`}>
           <NavBar changeTheme={ChangeTheme} />
           <Routes>
-
             <Route path='/JobChaser/' element={<Home />} />
-            <Route path='/JobChaser/Jobs' element=
-              {
-                data && data ? <Jobs jobs={data} /> : <NoPage />
-              } />
+            <Route path='/JobChaser/Jobs' element={<Jobs />} />
             <Route path='/JobChaser/SignIn' element={<SignIn />} />
             <Route path='/JobChaser/Signup' element={<SignUp />} />
             <Route path="*" element={<NoPage />} />
