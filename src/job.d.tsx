@@ -14,6 +14,9 @@ export interface Job {
 
 export interface JobTest {
     application_deadline: string,
+    application_details: {
+        url: string
+    },
     id: number,
     employer: {
         name: string,
@@ -22,6 +25,7 @@ export interface JobTest {
     headline: string,
     description: {
         text: string,
+        text_formatted: string,
     },
     conditions: string,
     salary_type: string,

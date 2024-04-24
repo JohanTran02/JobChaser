@@ -1,13 +1,14 @@
 import Menu from "../components/Menu";
-import JobCards from "../components/JobCards";
+import JobCard from "../components/JobCards";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchJobs, setInput, setSearchQuery } from "../slices/jobSlice";
 import { AppDispatch, RootState } from "../redux/store";
 import { useEffect } from "react";
 import Spinner from "../components/Spinner";
+import JobDescription from "../components/JobDescription";
 
 export default function Jobs() {
-    const { input, jobs, searchQuery, status } = useSelector((state: RootState) => state.jobs)
+    const { input, jobs, searchQuery, status, currentJob, modalStatus } = useSelector((state: RootState) => state.jobs)
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
@@ -15,6 +16,10 @@ export default function Jobs() {
             dispatch(fetchJobs(searchQuery))
         }
     }, [searchQuery, status, dispatch])
+
+    // useEffect(() => {
+
+    // }, [currentJob])
 
     const search = (e: React.ChangeEvent<HTMLInputElement>): void => {
         e.preventDefault();
@@ -28,21 +33,24 @@ export default function Jobs() {
     }
 
     let content;
+    console.log(modalStatus);
 
     if (status === "loading") {
         content = <Spinner />
     } else if (status === "fulfilled") {
-        content = jobs.map(job => (
-            <JobCards key={job.id} job={job} />
-        ));
+        content =
+            <section className="flex gap-4 md:px-32">
+                <ul className='flex flex-col gap-4 mt-10 w-1/2'>
+                    {jobs.map(job => (<JobCard key={job.id} job={job} />))}
+                </ul>
+                {modalStatus.includes("open") && <JobDescription currentJob={currentJob}></JobDescription>}
+            </section>
     }
 
     return (
         <>
             <Menu onSubmit={submit} onSearch={search} input={input} />
-            <ul className='flex flex-col gap-4 mt-10'>
-                {content}
-            </ul>
+            {content}
         </>
     )
 }

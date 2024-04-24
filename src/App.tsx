@@ -28,8 +28,8 @@ function App() {
   return (
     <>
       <ThemeContext.Provider value={theme}>
-        <main className={`min-h-screen ${theme}`}>
-          <NavBar changeTheme={ChangeTheme} />
+        <NavBar changeTheme={ChangeTheme} />
+        <main className={`min-h-screen  min-w-screen ${theme}`}>
           <Routes>
             <Route path='/JobChaser/' element={<Home />} />
             <Route path='/JobChaser/Jobs' element={<Jobs />} />
