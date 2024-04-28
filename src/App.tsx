@@ -21,7 +21,7 @@ function App() {
   body.className = theme.split(" ")[0];
 
   const ChangeTheme = (): void => {
-    setTheme(theme === `dark:bg-slate-800 dark:text-white` ? `light:bg-slate-400 light:text-light` : `dark:bg-slate-800 dark:text-white`);
+    setTheme(theme.includes("dark") ? `` : `dark:bg-slate-800 dark:text-white`);
     body.className = theme.split(" ")[0];
   }
 
@@ -29,7 +29,7 @@ function App() {
     <>
       <ThemeContext.Provider value={theme}>
         <NavBar changeTheme={ChangeTheme} />
-        <main className={`min-h-screen  min-w-screen ${theme}`}>
+        <main className={`min-h-screen min-w-screen ${theme}`}>
           <Routes>
             <Route path='/JobChaser/' element={<Home />} />
             <Route path='/JobChaser/Jobs' element={<Jobs />} />

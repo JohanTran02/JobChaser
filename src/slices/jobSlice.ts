@@ -1,14 +1,22 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { JobTest } from '../job.d'
+
+
+type FetchStatus = "idle" | "loading" | "fulfilled" | "rejected";
+type ModalStatus = "open" | "closed";
+
+
 export interface JobState {
     input: string,
     tools: string[],
     jobs: JobTest[],
     currentJob: JobTest,
     searchQuery: string,
-    status: "idle" | "loading" | "fulfilled" | "rejected";
-    modalStatus: "open" | "closed"
+    jobsStatus: FetchStatus,
+    searchStatus: FetchStatus,
+    searches: [],
+    modalStatus: ModalStatus
 }
 
 const initialState: JobState = {
@@ -17,7 +25,9 @@ const initialState: JobState = {
     jobs: [],
     currentJob: {} as JobTest,
     searchQuery: "",
-    status: "idle",
+    jobsStatus: "idle",
+    searchStatus: "idle",
+    searches: [],
     modalStatus: "closed"
 }
 
@@ -26,7 +36,7 @@ function wait(seconds: number): Promise<void> {
 }
 
 export const fetchJobs = createAsyncThunk(
-    "jobs/fetchBySearch",
+    "jobs/fetchJobs",
     async (search: string) => {
         await wait(0.5);
         //Lägg in en endpoint som template literal istället för search?
@@ -34,6 +44,18 @@ export const fetchJobs = createAsyncThunk(
         const json = await response.json();
         const data: JobTest[] = json.hits;
         console.log(data);
+        return data;
+    }
+)
+
+export const fetchJobsSearches = createAsyncThunk(
+    "jobs/fetchSearches",
+    async (search: string) => {
+        await wait(0.5);
+        //Lägg in en endpoint som template literal istället för search?
+        const response = await fetch(`https://jobsearch.api.jobtechdev.se/complete?q=${search}`)
+        const json = await response.json();
+        const data: [] = json;
         return data;
     }
 )
@@ -47,18 +69,18 @@ export const JobSlice = createSlice({
             state.input = action.payload;
         },
         setSearchQuery: (state, action: PayloadAction<string>) => {
-            state.status = "idle";
+            state.jobsStatus = "idle";
             state.searchQuery = action.payload;
         },
         setCurrentJob: (state, action: PayloadAction<number>) => {
             const currentJob = state.jobs.filter((job: JobTest) => job.id === action.payload)[0]
             state.currentJob = currentJob;
         },
-        setModalStatus: (state, action: PayloadAction<"open" | "closed">) => {
+        setModalStatus: (state, action: PayloadAction<ModalStatus>) => {
             state.modalStatus = action.payload;
         },
-        setStatus: (state, action: PayloadAction<"idle" | "loading" | "fulfilled" | "rejected">) => {
-            state.status = action.payload;
+        setStatus: (state, action: PayloadAction<FetchStatus>) => {
+            state.jobsStatus = action.payload;
         },
         addTools: (state, action: PayloadAction<string>) => {
             state.tools.push(action.payload);
@@ -69,14 +91,29 @@ export const JobSlice = createSlice({
     },
     extraReducers(builder) {
         builder.addCase(fetchJobs.pending, (state) => {
-            state.status = "loading";
+            state.jobsStatus = "loading";
         })
         builder.addCase(fetchJobs.fulfilled, (state, action: PayloadAction<JobTest[]>) => {
-            state.status = "fulfilled";
+            state.jobsStatus = "fulfilled";
             state.jobs = action.payload;
+        })
+        builder.addCase(fetchJobsSearches.pending, (state) => {
+            state.searchStatus = "loading";
+        })
+        builder.addCase(fetchJobsSearches.fulfilled, (state, action: PayloadAction<[]>) => {
+            state.searchStatus = "fulfilled";
+            state.searches = action.payload;
         })
     },
 })
-export const { setInput, addTools, deleteTools, setSearchQuery, setStatus, setCurrentJob, setModalStatus } = JobSlice.actions
+export const {
+    setInput,
+    addTools,
+    deleteTools,
+    setSearchQuery,
+    setStatus,
+    setCurrentJob,
+    setModalStatus,
+} = JobSlice.actions
 
 export default JobSlice.reducer;
