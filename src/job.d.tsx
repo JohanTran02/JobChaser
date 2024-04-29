@@ -1,18 +1,18 @@
-export interface Job {
-    id?: number,
-    company: string,
-    logo: string,
-    position: string,
-    role?: string,
-    level?: string,
-    postedAt: string,
-    contract: string,
-    location: string,
-    languages?: string[],
-    tools: string[]
-}
+// export interface Job {
+//     id?: number,
+//     company: string,
+//     logo: string,
+//     position: string,
+//     role?: string,
+//     level?: string,
+//     postedAt: string,
+//     contract: string,
+//     location: string,
+//     languages?: string[],
+//     tools: string[]
+// }
 
-export interface JobTest {
+export interface Job {
     application_deadline: string,
     application_details: {
         url: string
@@ -34,3 +34,13 @@ export interface JobTest {
         municipality: string
     }
 }
+
+export interface JobSuggestions {
+    found_phrase: string,
+    type: string,
+    value: string,
+}
+
+
+export type FetchStatus = "idle" | "loading" | "fulfilled" | "rejected";
+export type ModalStatus = "open" | "closed";

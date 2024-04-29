@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import jobReducer from '../slices/jobSlice'
 import { jobApi } from '../slices/jobApiSlice'
 import { setupListeners } from '@reduxjs/toolkit/query'
+import { useDispatch } from 'react-redux'
 
 
 export const store = configureStore({
@@ -16,4 +17,5 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
 setupListeners(store.dispatch);

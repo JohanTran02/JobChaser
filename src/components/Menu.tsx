@@ -1,10 +1,14 @@
-import { useDispatch } from "react-redux";
 import { addTools, deleteTools } from "../slices/jobSlice";
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
+import { RootState, useAppDispatch } from "../redux/store";
+import { useSelector } from "react-redux";
+import SuggestedResults from "./SuggestedResults";
 
 export function Menu({ onSubmit, onSearch, input }: { onSubmit: React.FormEventHandler, onSearch: React.ChangeEventHandler, input: string }) {
-    const dispatch = useDispatch();
+    const { suggestedModalStatus, searches } = useSelector((state: RootState) => state.jobs);
+    const filters = [["Sass"], ["React"], ["Vue"]];
+    const dispatch = useAppDispatch();
     const toolChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.target.checked ? dispatch(addTools(e.target.value)) : dispatch(deleteTools(e.target.value));
     }
@@ -15,23 +19,26 @@ export function Menu({ onSubmit, onSearch, input }: { onSubmit: React.FormEventH
 
     return (
         <>
-            <div className="w-4/6 pt-10 m-auto">
-                <form onSubmit={(e) => onSubmit(e)}>
+            <div className="w-4/6 pt-10 m-auto relative">
+                <form className="flex gap-4" onSubmit={(e) => onSubmit(e)} autoComplete="off">
                     <input
                         type="text"
-                        className={`w-full ${theme} rounded-sm p-2`}
+                        className={`w-full ${theme} rounded-sm p-2 focus:outline-none focus:ring focus:border-blue-500`}
                         value={input}
                         name="inputSearch"
                         onChange={e => onSearch(e)}
                         placeholder="Search a job..."
                     />
-                    <input type="submit" />
+                    <input className={`${theme} rounded-sm p-2`} type="submit" />
                 </form>
-            </div>
-            <div>
-                <label className="has-[:checked]:bg-red-500"><input type="checkbox" name="filterRadio" value={"Sass"} className="hidden" onChange={toolChecked} />Sass</label>
-                <label className="has-[:checked]:bg-red-500"><input type="checkbox" name="filterRadio" value={"React"} className="hidden" onChange={toolChecked} />React</label>
-                <label className="has-[:checked]:bg-red-500"><input type="checkbox" name="filterRadio" value={"Vue"} className="hidden" onChange={toolChecked} />Vue</label>
+                {suggestedModalStatus.includes("open") && searches && <SuggestedResults searches={searches} />}
+                <div>
+                    {
+                        filters.map(([title]) => (
+                            <label key={title} className="has-[:checked]:bg-red-500"><input type="checkbox" name="filterRadio" value={title} className="hidden" onChange={toolChecked} />{title}</label>
+                        ))
+                    }
+                </div>
             </div>
         </>
     );

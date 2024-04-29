@@ -1,26 +1,23 @@
-import { useDispatch, useSelector } from "react-redux";
-import { JobTest } from "../job.d";
-import { setCurrentJob, setModalStatus } from "../slices/jobSlice";
-import { AppDispatch, RootState } from "../redux/store";
+import { useSelector } from "react-redux";
+import { Job } from "../job.d";
+import { setCurrentJob, setJobModalStatus } from "../slices/jobSlice";
+import { RootState, useAppDispatch } from "../redux/store";
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 
-export default function JobCard({ job }: { job: JobTest }) {
-    const dispatch = useDispatch<AppDispatch>();
-    const { modalStatus } = useSelector((root: RootState) => root.jobs);
+export default function JobCard({ job }: { job: Job }) {
+    const dispatch = useAppDispatch();
+    const { jobModalStatus } = useSelector((root: RootState) => root.jobs);
     let theme = useContext(ThemeContext);
 
     theme = theme.includes("dark") ? "dark:bg-slate-600" : "bg-slate-300 text-black";
 
     function getItem(id: number) {
-        if (modalStatus.includes("closed")) {
-            dispatch(setCurrentJob(id))
-            dispatch(setModalStatus("open"))
+        if (jobModalStatus.includes("closed")) {
+            dispatch(setJobModalStatus("open"))
         }
 
-        if (modalStatus.includes("open")) {
-            dispatch(setCurrentJob(id))
-        }
+        dispatch(setCurrentJob(id))
     }
 
     return (

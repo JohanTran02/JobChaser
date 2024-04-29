@@ -7,7 +7,6 @@ import { ThemeContext } from "../context/ThemeContext";
 export function NavBar({ changeTheme }: { changeTheme: MouseEventHandler }) {
     const user = useContext(AuthContext)
     const theme = useContext(ThemeContext);
-    console.log(user);
 
     return (
         <>

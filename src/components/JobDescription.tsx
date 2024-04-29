@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
-import { JobTest } from "../job.d";
+import { Job } from "../job.d";
 import parse from "html-react-parser"
 
-export default function JobDescription({ currentJob }: { currentJob: JobTest }) {
+export default function JobDescription({ currentJob }: { currentJob: Job }) {
     let theme = useContext(ThemeContext);
 
     theme = theme.includes("dark") ? "dark:bg-slate-600" : "bg-slate-300 text-black";
