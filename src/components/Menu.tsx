@@ -15,7 +15,7 @@ export function Menu({ onSubmit, onSearch, input }: { onSubmit: React.FormEventH
 
     let theme = useContext(ThemeContext);
 
-    theme = theme.includes("dark") ? "dark:bg-slate-600 dark:placeholder-white" : "bg-slate-300 placeholder-black";
+    theme = theme.includes("dark") ? "dark:bg-slate-600 hover:bg-slate-700 dark:placeholder-white" : "bg-slate-300 hover:bg-slate-400 placeholder-black";
 
     return (
         <>
@@ -29,7 +29,7 @@ export function Menu({ onSubmit, onSearch, input }: { onSubmit: React.FormEventH
                         onChange={e => onSearch(e)}
                         placeholder="Search a job..."
                     />
-                    <input className={`${theme} rounded-sm p-2`} type="submit" />
+                    <input className={`${theme} rounded-sm p-2 cursor-pointer`} type="submit" />
                 </form>
                 {suggestedModalStatus.includes("open") && searches && <SuggestedResults searches={searches} />}
                 <div>

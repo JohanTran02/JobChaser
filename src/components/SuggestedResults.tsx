@@ -19,7 +19,7 @@ export default function SuggestedResults({ searches }: { searches: JobSuggestion
 
     return (
         <>
-            <ul className={`${theme} rounded-sm absolute z-10 divide-y divide-slate-800/20 w-full`}
+            <ul className={`${theme} rounded-sm absolute z-10 divide-y divide-slate-800/20 w-full cursor-pointer`}
                 onClick={(e) => getSuggestedResult(e)}>
                 {
                     searches && searches.map((search: JobSuggestions, index) => <AutoComplete key={index} search={search} />)

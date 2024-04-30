@@ -6,6 +6,8 @@ import { AppDispatch, RootState } from "../redux/store";
 import { useEffect, useState } from "react";
 import Spinner from "../components/Spinner";
 import JobDescription from "../components/JobDescription";
+import SkeletonDescription from "../components/SkeletonDescription";
+import { Job } from "../job.d";
 
 function useDebounce(value: string, seconds: number): string {
     const [debouncedValue, setDebouncedValue] = useState(value);
@@ -21,11 +23,28 @@ function useDebounce(value: string, seconds: number): string {
     return debouncedValue;
 }
 
+function useDebounceJob(value: Job, seconds: number): JSX.Element {
+    const [debouncedJob, setDebouncedValue] = useState<JSX.Element>(<SkeletonDescription />);
+
+    useEffect(() => {
+        setDebouncedValue(<SkeletonDescription />)
+        const handler = setTimeout(() => {
+            setDebouncedValue(<JobDescription currentJob={value} />);
+        }, seconds * 1000);
+
+        return () => clearTimeout(handler)
+    }, [value, seconds]);
+
+    return debouncedJob;
+}
+
+
 export default function Jobs() {
     const { input, jobs, searchQuery, jobsStatus, currentJob, jobModalStatus } = useSelector((state: RootState) => state.jobs)
     const dispatch = useDispatch<AppDispatch>();
     let content;
-    const debouncedTerm = useDebounce(input, 0.4);
+    const debouncedInput = useDebounce(input, 0.4);
+    const debouncedJob = useDebounceJob(currentJob, 1);
 
     useEffect(() => {
         if (jobsStatus.includes("idle")) {
@@ -35,8 +54,8 @@ export default function Jobs() {
     }, [searchQuery, jobsStatus, dispatch])
 
     useEffect(() => {
-        dispatch(fetchJobsSearches(debouncedTerm))
-    }, [debouncedTerm, dispatch])
+        dispatch(fetchJobsSearches(debouncedInput))
+    }, [debouncedInput, dispatch])
 
     const search = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -54,10 +73,12 @@ export default function Jobs() {
     } else if (jobsStatus === "fulfilled") {
         content =
             <section className="flex gap-4 lg:px-32">
-                <ul className='flex flex-col gap-4 mt-10 w-1/2 max-sm:hidden'>
+                <ul className='flex flex-col gap-4 mt-10 w-1/2 max-sm:hidden cursor-pointer'>
                     {jobs && jobs.map(job => (<JobCard key={job.id} job={job} />))}
                 </ul>
-                {jobModalStatus.includes("open") && <JobDescription currentJob={currentJob}></JobDescription>}
+                {jobModalStatus.includes("open") &&
+                    debouncedJob
+                }
             </section>
     }
 
