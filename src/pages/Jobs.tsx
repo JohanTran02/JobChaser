@@ -24,16 +24,18 @@ function useDebounce(value: string, seconds: number): string {
 }
 
 function useDebounceJob(value: Job, seconds: number): JSX.Element {
+    const { jobModalStatus } = useSelector((state: RootState) => state.jobs)
+
     const [debouncedJob, setDebouncedValue] = useState<JSX.Element>(<SkeletonDescription />);
 
     useEffect(() => {
         setDebouncedValue(<SkeletonDescription />)
         const handler = setTimeout(() => {
-            setDebouncedValue(<JobDescription currentJob={value} />);
+            if (jobModalStatus.includes("open")) setDebouncedValue(<JobDescription currentJob={value} />);
         }, seconds * 1000);
 
         return () => clearTimeout(handler)
-    }, [value, seconds]);
+    }, [value, seconds, jobModalStatus]);
 
     return debouncedJob;
 }
@@ -44,7 +46,7 @@ export default function Jobs() {
     const dispatch = useDispatch<AppDispatch>();
     let content;
     const debouncedInput = useDebounce(input, 0.4);
-    const debouncedJob = useDebounceJob(currentJob, 0.5);
+    const debouncedJob = useDebounceJob(currentJob, 0.4);
 
     useEffect(() => {
         if (jobsStatus.includes("idle")) {
