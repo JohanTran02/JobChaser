@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { ThemeContext } from "../context/ThemeContext";
-import { Job } from "../job.d";
+import { ThemeContext } from "../../context/ThemeContext";
+import { Job } from "../../job.d";
 import parse from "html-react-parser"
 
 export default function JobDescription({ currentJob }: { currentJob: Job }) {

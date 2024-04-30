@@ -49,7 +49,6 @@ export default function App() {
               <Route path='/JobChaser/' element={<Home />} />
               <Route path='/JobChaser/Jobs' element={<Jobs />} />
               <Route path='/JobChaser/SignIn' element={<SignIn />} />
-              <Route path='/JobChaser/Signup' element={<SignUp />} />
               <Route path="*" element={<NoPage />} />
             </Routes>
           </main>

@@ -4,7 +4,7 @@ import { auth, signOut } from "../firebase-config";
 import { AuthContext } from "../context/AuthContext";
 import { ThemeContext } from "../context/ThemeContext";
 
-export function NavBar({ changeTheme }: { changeTheme: MouseEventHandler }) {
+export default function NavBar({ changeTheme }: { changeTheme: MouseEventHandler }) {
     const user = useContext(AuthContext)
     const theme = useContext(ThemeContext);
 
@@ -21,7 +21,6 @@ export function NavBar({ changeTheme }: { changeTheme: MouseEventHandler }) {
                                 <Link to="/JobChaser/" onClick={() => signOut(auth)}>Sign Out</Link>
                             </li> :
                             <>
-                                <li><Link to="/JobChaser/SignUp">Sign Up</Link></li>
                                 <li><Link to="/JobChaser/SignIn">Sign in</Link></li>
                             </>}
                     </ul>
@@ -32,5 +31,3 @@ export function NavBar({ changeTheme }: { changeTheme: MouseEventHandler }) {
         </>
     )
 }
-
-export default NavBar;

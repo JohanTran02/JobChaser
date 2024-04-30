@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { JobSuggestions } from "../job.d";
-import { ThemeContext } from "../context/ThemeContext";
+import { JobSuggestions } from "../../job.d";
+import { ThemeContext } from "../../context/ThemeContext";
 
 export default function AutoComplete({ search }: { search: JobSuggestions }) {
     let theme = useContext(ThemeContext);

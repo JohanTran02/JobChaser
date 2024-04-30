@@ -1,8 +1,8 @@
-import { Job } from "../job.d";
-import { setCurrentJob } from "../slices/jobSlice";
-import { useAppDispatch } from "../redux/store";
+import { Job } from "../../job.d";
+import { setCurrentJob } from "../../slices/jobSlice";
+import { useAppDispatch } from "../../redux/store";
 import { useContext } from "react";
-import { ThemeContext } from "../context/ThemeContext";
+import { ThemeContext } from "../../context/ThemeContext";
 
 
 export default function JobCard({ job }: { job: Job }) {

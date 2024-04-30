@@ -1,9 +1,9 @@
 import { useContext } from "react"
-import { ThemeContext } from "../context/ThemeContext";
-import { JobSuggestions } from "../job.d";
+import { ThemeContext } from "../../context/ThemeContext";
+import { JobSuggestions } from "../../job.d";
 import AutoComplete from "./Autocomplete";
-import { useAppDispatch } from "../redux/store";
-import { setSearchQuery } from "../slices/jobSlice";
+import { useAppDispatch } from "../../redux/store";
+import { setSearchQuery } from "../../slices/jobSlice";
 
 
 export default function SuggestedResults({ searches }: { searches: JobSuggestions[] }) {

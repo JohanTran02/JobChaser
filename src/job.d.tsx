@@ -1,17 +1,3 @@
-// export interface Job {
-//     id?: number,
-//     company: string,
-//     logo: string,
-//     position: string,
-//     role?: string,
-//     level?: string,
-//     postedAt: string,
-//     contract: string,
-//     location: string,
-//     languages?: string[],
-//     tools: string[]
-// }
-
 export interface Job {
     application_deadline: string,
     application_details: {
@@ -40,7 +26,6 @@ export interface JobSuggestions {
     type: string,
     value: string,
 }
-
 
 export type FetchStatus = "idle" | "loading" | "fulfilled" | "rejected";
 export type ModalStatus = "open" | "closed";
