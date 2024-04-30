@@ -1,23 +1,17 @@
-import { useSelector } from "react-redux";
 import { Job } from "../job.d";
-import { setCurrentJob, setJobModalStatus } from "../slices/jobSlice";
-import { RootState, useAppDispatch } from "../redux/store";
+import { setCurrentJob } from "../slices/jobSlice";
+import { useAppDispatch } from "../redux/store";
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 
 
 export default function JobCard({ job }: { job: Job }) {
     const dispatch = useAppDispatch();
-    const { jobModalStatus } = useSelector((root: RootState) => root.jobs);
     let theme = useContext(ThemeContext);
 
     theme = theme.includes("dark") ? "dark:bg-slate-600 hover:bg-slate-700" : "bg-slate-300 hover:bg-slate-400 text-black";
 
     function getItem(id: number) {
-        if (jobModalStatus.includes("closed")) {
-            dispatch(setJobModalStatus("open"))
-        }
-
         dispatch(setCurrentJob(id))
     }
 

@@ -100,6 +100,11 @@ export const JobSlice = createSlice({
         builder.addCase(fetchJobs.fulfilled, (state, action: PayloadAction<Job[]>) => {
             state.jobsStatus = "fulfilled";
             state.jobs = action.payload;
+
+            const currentJob = state.jobs[0];
+
+            state.currentJob = currentJob;
+            state.jobModalStatus = "open";
         })
         builder.addCase(fetchJobs.rejected, (state, action) => {
             state.jobsStatus = "rejected";

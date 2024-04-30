@@ -44,7 +44,7 @@ export default function Jobs() {
     const dispatch = useDispatch<AppDispatch>();
     let content;
     const debouncedInput = useDebounce(input, 0.4);
-    const debouncedJob = useDebounceJob(currentJob, 1);
+    const debouncedJob = useDebounceJob(currentJob, 0.5);
 
     useEffect(() => {
         if (jobsStatus.includes("idle")) {
