@@ -1,7 +1,7 @@
 import { SubmitHandler } from "react-hook-form";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase-config";
-import Form from "../components/Form";
+import Form from "../components/Signin/Form";
 import { useNavigate } from "react-router-dom";
 
 interface IFormInput {
@@ -24,7 +24,7 @@ export default function SignUp() {
     return (
         <>
             <p>Sign Up</p>
-            <Form sign={"Sign Up"} formAction={signUp} />
+            <Form />
         </>
     )
 }

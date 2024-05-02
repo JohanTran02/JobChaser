@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Jobs from "./pages/Jobs"
 import NoPage from "./pages/NoPage"
-import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Home from './pages/Home';
 import NavBar from "./components/NavBar"
