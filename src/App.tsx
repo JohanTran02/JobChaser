@@ -3,7 +3,7 @@ import Jobs from "./pages/Jobs"
 import NoPage from "./pages/NoPage"
 import SignIn from "./pages/SignIn";
 import Home from './pages/Home';
-import NavBar from "./components/NavBar"
+import NavBar from "./components/Navbar/NavBar"
 import { useState } from "react";
 import { ThemeContext } from "./context/ThemeContext";
 import { setSuggestedModalStatus } from "./slices/jobSlice";
@@ -43,7 +43,7 @@ export default function App() {
       <ThemeContext.Provider value={theme}>
         <div onClick={e => suggestedResults(e)}>
           <NavBar changeTheme={ChangeTheme} />
-          <main className={`min-h-screen min-w-screen ${theme}`}>
+          <main className={`h-screen min-w-screen ${theme}`}>
             <Routes>
               <Route path='/JobChaser/' element={<Home />} />
               <Route path='/JobChaser/Jobs' element={<Jobs />} />

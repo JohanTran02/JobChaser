@@ -7,7 +7,6 @@ import { optionPatterns } from "../../Features/Signin/formFeatures";
 export default function Input({ label, type, id, placeholder }: { label: string, type: string, id: string, placeholder: string }) {
     const { register } = useFormContext();
     const errorHandler = optionPatterns(id) as RegisterOptions<FieldValues, string>;
-    // console.log(id, errorHandler);
 
     let theme = useContext(ThemeContext);
 

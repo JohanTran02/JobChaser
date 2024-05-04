@@ -13,8 +13,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             if (user) {
                 setAuthenticated(auth.currentUser);
             } else {
-                // User is signed out
-                // ...
                 console.log("logged out");
                 setAuthenticated(auth.currentUser);
             }
