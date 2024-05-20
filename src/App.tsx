@@ -10,7 +10,6 @@ import { setSuggestedModalStatus } from "./slices/jobSlice";
 import { useAppDispatch } from "./redux/store";
 import SignUp from "./pages/SignUp";
 
-
 export default function App() {
   //Istället för att ha hela den strängen testa att ha theme med värde dark eller light 
   //Lägg sedan exempelvis dark:bg-slate-800 dark:text-white för respektive komponent
@@ -23,7 +22,7 @@ export default function App() {
   body.className = theme.split(" ")[0];
 
   const ChangeTheme = (): void => {
-    setTheme(theme.includes("dark") ? `` : `dark:bg-slate-800 dark:text-white`);
+    setTheme(theme.includes("dark") ? `bg-white` : `dark:bg-slate-800 dark:text-white`);
     body.className = theme.split(" ")[0];
   }
 
@@ -42,9 +41,9 @@ export default function App() {
   return (
     <>
       <ThemeContext.Provider value={theme}>
-        <div onClick={e => suggestedResults(e)}>
+        <div className="min-h-screen grid grid-rows-2" onClick={e => suggestedResults(e)}>
           <NavBar changeTheme={ChangeTheme} />
-          <main className={`h-screen min-w-screen ${theme}`}>
+          <main className={`row-start-1 row-span-2 ${theme}`}>
             <Routes>
               <Route path='/JobChaser/' element={<Home />} />
               <Route path='/JobChaser/Jobs' element={<Jobs />} />

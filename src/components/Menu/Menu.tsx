@@ -39,7 +39,7 @@ export default function Menu() {
 
     return (
         <>
-            <div className="w-4/6 pt-10 m-auto relative">
+            <div className="w-4/6 pt-6 m-auto relative">
                 <form className="flex gap-4" onSubmit={(e) => submit(e)} autoComplete="off">
                     <input
                         type="text"

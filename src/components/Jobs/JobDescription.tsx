@@ -9,7 +9,7 @@ export default function JobDescription({ currentJob }: { currentJob: Job }) {
 
     return (
         <>
-            <section className={`${theme} flex flex-col flex-1 sticky top-12 p-3 mt-10 rounded-md h-[80dvh] divide-y divide-slate-800/20 `}>
+            <section className={`${theme} flex flex-col flex-1 sticky top-20 p-3 mt-10 rounded-md h-[80dvh] divide-y divide-slate-800/20 `}>
                 <div>
                     <h1 className="text-2xl font-bold">{currentJob.headline}</h1>
                     <h2 className="text-lg font-bold">{currentJob.employer.name}</h2>
