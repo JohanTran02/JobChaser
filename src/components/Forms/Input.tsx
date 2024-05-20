@@ -3,10 +3,18 @@ import { FieldValues, RegisterOptions, useFormContext } from "react-hook-form";
 import { ThemeContext } from "../../context/ThemeContext";
 import ErrorMsg from "./ErrorMsg";
 import { optionPatterns } from "../../Features/Signin/formFeatures";
+import { Pattern } from "../../job.d";
 
-export default function Input({ label, type, id, placeholder }: { label: string, type: string, id: string, placeholder: string }) {
+export default function Input({ label, type, id, placeholder, pattern }:
+    {
+        label: string,
+        type: string,
+        id: string,
+        placeholder: string,
+        pattern: Pattern
+    }) {
     const { register } = useFormContext();
-    const errorHandler = optionPatterns(id) as RegisterOptions<FieldValues, string>;
+    const errorHandler = optionPatterns(id, pattern) as RegisterOptions<FieldValues, string>;
 
     let theme = useContext(ThemeContext);
 

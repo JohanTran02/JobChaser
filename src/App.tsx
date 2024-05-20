@@ -8,6 +8,7 @@ import { useState } from "react";
 import { ThemeContext } from "./context/ThemeContext";
 import { setSuggestedModalStatus } from "./slices/jobSlice";
 import { useAppDispatch } from "./redux/store";
+import SignUp from "./pages/SignUp";
 
 
 export default function App() {
@@ -48,6 +49,7 @@ export default function App() {
               <Route path='/JobChaser/' element={<Home />} />
               <Route path='/JobChaser/Jobs' element={<Jobs />} />
               <Route path='/JobChaser/SignIn' element={<SignIn />} />
+              <Route path='/JobChaser/SignUp' element={<SignUp />} />
               <Route path="*" element={<NoPage />} />
             </Routes>
           </main>

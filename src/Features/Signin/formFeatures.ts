@@ -1,3 +1,5 @@
+import { Pattern } from "../../job.d"
+
 interface ErrorObject {
     required: string,
     maxLength: {
@@ -14,7 +16,7 @@ interface ErrorObject {
     }
 }
 
-export const optionPatterns = (property: string) => {
+export const optionPatterns = (property: string, pattern: Pattern) => {
     const errorObject: Partial<ErrorObject> = {
         required: `${property} is required.`
     }
@@ -26,23 +28,25 @@ export const optionPatterns = (property: string) => {
         }
     }
 
-    // if (property === 'password') {
-    //     errorObject.pattern = {
-    //         value: /^(?=.*[A-Z])(?=.*\d).+$/,
-    //         message: `The ${property} is required to contain atleast a capital letter and a number.`
-    //     }
-    //     errorObject.minLength = {
-    //         value: 6,
-    //         message: `The ${property} needs to contain atleast 6 symbols.`
-    //     }
-    // }
+    if (pattern.includes("Sign Up")) {
+        if (property === 'password') {
+            errorObject.pattern = {
+                value: /^(?=.*[A-Z])(?=.*\d).+$/,
+                message: `The ${property} is required to contain atleast a capital letter and a number.`
+            }
+            errorObject.minLength = {
+                value: 6,
+                message: `The ${property} needs to contain atleast 6 symbols.`
+            }
+        }
 
-    // if (property === 'name') {
-    //     errorObject.pattern = {
-    //         value: /^[a-zA-ZåäöÅÄÖ\s]{2,}$/,
-    //         message: `The ${property} needs to contain atleast 2 symbols.`
-    //     }
-    // }
+        // if (property === 'name') {
+        //     errorObject.pattern = {
+        //         value: /^[a-zA-ZåäöÅÄÖ\s]{2,}$/,
+        //         message: `The ${property} needs to contain atleast 2 symbols.`
+        //     }
+        // }
+    }
 
     return errorObject;
 }

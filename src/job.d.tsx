@@ -29,3 +29,9 @@ export interface JobSuggestions {
 
 export type FetchStatus = "idle" | "loading" | "fulfilled" | "rejected";
 export type ModalStatus = "open" | "closed";
+export type Pattern = "Sign In" | "Sign Up";
+
+export interface IFormInput {
+    email: string;
+    password: string;
+}

@@ -14,6 +14,7 @@ export default function NavBar({ changeTheme }: { changeTheme: MouseEventHandler
     const nav_links = [
         { href: "/JobChaser/", name: "Home" },
         { href: "/JobChaser/Jobs", name: "Jobs" },
+        { href: "/JobChaser/SignUp", name: "Sign Up" },
     ]
 
     return (
@@ -22,7 +23,7 @@ export default function NavBar({ changeTheme }: { changeTheme: MouseEventHandler
                 <nav className="flex-1">
                     <ul className="flex flex-row">
                         {nav_links && nav_links.map((nav_link) =>
-                            <NavItem name={nav_link.name} href={nav_link.href} />)}
+                            <NavItem key={nav_link.name} name={nav_link.name} href={nav_link.href} />)}
                         {user ?
                             <li>
                                 <Link to="/JobChaser/" onClick={() => signOut(auth)}>Sign Out</Link>
