@@ -5,7 +5,7 @@ export default function ErrorMsg({ id }: { id: string }) {
 
     return (
         <>
-            {errors[id]?.type && <span className="text-xs text-red-400">{`${errors[id].message}`}</span>}
+            {errors[id]?.type && <span className="text-xs text-red-400">{`${errors[id]?.message}`}</span>}
         </>
     )
 }
