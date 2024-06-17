@@ -121,7 +121,7 @@ export async function createJobByUser(req: Request, res: Response) {
 }
 
 type Query = {
-    email: string,
+    userid: string,
     jobsid: string
 }
 
@@ -130,11 +130,11 @@ export async function deleteJobByUser(req: Request<{}, {}, {}, Query>, res: Resp
     try {
 
         const jobsid = req.query.jobsid || "";
-        const email = req.query.email || "";
+        const userid = parseInt(req.query.userid);
 
         const user = await prisma.user.findUnique({
             where: {
-                email: email
+                id: userid
             },
             select: {
                 jobs: true
@@ -145,7 +145,7 @@ export async function deleteJobByUser(req: Request<{}, {}, {}, Query>, res: Resp
 
         const jobs = await prisma.user.update({
             where: {
-                email: email
+                id: userid
             },
             data: {
                 jobs: {

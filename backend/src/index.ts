@@ -15,7 +15,8 @@ app.use(bodyParser.json());
 app.use("/api", userRoutes);
 app.use("/api", jobsRoutes);
 
-
+//arbetsförmedlingen endpoints
+//https://gitlab.com/arbetsformedlingen/job-ads/jobsearch-apis/-/blob/main/docs/GettingStartedJobSearchSE.md#Endpoints
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
