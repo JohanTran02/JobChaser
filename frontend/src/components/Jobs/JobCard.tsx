@@ -1,13 +1,26 @@
 import { Job } from "../../job.d";
 import { setCurrentJob } from "../../slices/jobSlice";
 import { useAppDispatch } from "../../redux/store";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
+import { BookmarkIcon } from "@heroicons/react/24/outline";
 
 
 export default function JobCard({ job }: { job: Job }) {
+    const [bookMark, setBookMark] = useState<"saved" | "notSaved">("notSaved");
+    const [bookMarkColor, setBookMarkColor] = useState<"fill-black" | "fill-white" | "fill-none">("fill-none")
     const dispatch = useAppDispatch();
     let theme = useContext(ThemeContext);
+
+
+    useEffect(() => {
+        if (bookMark === "saved") {
+            theme.includes("dark") ? setBookMarkColor("fill-white") : setBookMarkColor("fill-black");
+        }
+        else {
+            setBookMarkColor("fill-none")
+        }
+    }, [theme, setBookMarkColor, bookMark])
 
     theme = theme.includes("dark") ? "dark:bg-slate-600 hover:bg-slate-700" : "bg-slate-300 hover:bg-slate-400 text-black";
 
@@ -15,18 +28,32 @@ export default function JobCard({ job }: { job: Job }) {
         dispatch(setCurrentJob(id))
     }
 
+    function changeBookMark() {
+        if (bookMark === "notSaved") {
+            setBookMark("saved")
+        }
+        else {
+            setBookMark("notSaved")
+            setBookMarkColor("fill-none")
+        }
+    }
     return (
         <>
-            <li key={job.id} onClick={() => getItem(job.id)} className={`${theme} rounded-md p-2`}>
-                <div className="w-32">
-                    <img src={job.logo_url} alt="Company logo" loading="lazy" className="w-full object-contain" />
+            <li key={job.id} className={`${theme} rounded-md p-2 cursor-pointer`}>
+                <div className="flex relative">
+                    <BookmarkIcon className={
+                        `size-8 absolute right-0 ${bookMarkColor}`
+                    } onClick={changeBookMark}></BookmarkIcon>
                 </div>
-                <h1 className="text-2xl font-bold">{job.employer.name}</h1>
-                <h2>{job.workplace_address.municipality}</h2>
-                <article className="flex flex-col gap-1">
-                    <p className="text-xl font-semibold line-clamp-4">{job.description.text}</p>
-                </article>
-                <p className="text-sm font-light mt-2">{job.application_deadline}</p>
+                <section onClick={() => getItem(job.id)} className="space-y-2">
+                    <img src={job.logo_url} alt="Company logo" loading="lazy" className="size-32 object-contain" />
+                    <article className="flex flex-col gap-1">
+                        <h1 className="text-2xl font-bold">{job.employer.name}</h1>
+                        <h2>{job.workplace_address.municipality}</h2>
+                        <p className="text-xl font-semibold line-clamp-4">{job.description.text}</p>
+                    </article>
+                    <p className="text-sm font-light mt-2">{`Publicated - ${new Date(job.publication_date).toLocaleString("sv-SE")}`}</p>
+                </section>
             </li>
         </>
     );

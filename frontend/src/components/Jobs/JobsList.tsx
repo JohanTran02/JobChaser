@@ -25,7 +25,7 @@ export default function JobsList() {
     } else if (jobsStatus === "fulfilled") {
         content =
             <section className="flex gap-4 lg:px-32">
-                <ul className='flex flex-col gap-4 mt-10 w-1/2 max-sm:hidden cursor-pointer'>
+                <ul className='flex flex-col gap-4 mt-10 w-1/2 max-sm:hidden'>
                     {jobs && jobs.map(job => (<JobCard key={job.id} job={job} />))}
                 </ul>
                 {jobModalStatus.includes("open") &&

@@ -13,6 +13,7 @@ export interface Job {
         text: string,
         text_formatted: string,
     },
+    publication_date: string,
     conditions: string,
     salary_type: string,
     occupation: string,
