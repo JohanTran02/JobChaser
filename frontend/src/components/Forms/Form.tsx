@@ -10,7 +10,7 @@ export default function Form({ pattern, submitHandler }: { pattern: Pattern, sub
     return (
         <>
             <FormProvider {...methods}>
-                <form noValidate onSubmit={handleSubmit(submitHandler)}>
+                <form onSubmit={handleSubmit(submitHandler)}>
                     <div className={`grid gap-5`}>
                         <Input
                             label="email"

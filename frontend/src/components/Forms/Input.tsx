@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { FieldValues, RegisterOptions, useFormContext } from "react-hook-form";
 import { ThemeContext } from "../../context/ThemeContext";
 import ErrorMsg from "./ErrorMsg";
-import { optionPatterns } from "../../Features/Signin/formFeatures";
+import { optionPatterns } from "../../Features/Form/formFeatures";
 import { Pattern } from "../../job.d";
 
 export default function Input({ label, type, id, placeholder, pattern }:
