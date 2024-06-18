@@ -20,7 +20,7 @@ export default function Input({ label, type, id, placeholder, pattern }:
 
     theme = theme.includes("dark") ?
         "dark:bg-slate-600 dark:placeholder-white" :
-        "bg-slate-300 placeholder-black";
+        "bg-slate-300 placeholder-black border-black";
 
     return (
         <div className="flex flex-col w-full gap-2">

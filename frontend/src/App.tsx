@@ -9,6 +9,8 @@ import { ThemeContext } from "./context/ThemeContext";
 import { setSuggestedModalStatus } from "./slices/jobSlice";
 import { useAppDispatch } from "./redux/store";
 import SignUp from "./pages/SignUp";
+import ProtectedRoute from "./components/User/ProtectedRoute";
+import ProfilePage from "./pages/Profile";
 
 export default function App() {
   //Istället för att ha hela den strängen testa att ha theme med värde dark eller light 
@@ -49,6 +51,10 @@ export default function App() {
               <Route path='/JobChaser/Jobs' element={<Jobs />} />
               <Route path='/JobChaser/SignIn' element={<SignIn />} />
               <Route path='/JobChaser/SignUp' element={<SignUp />} />
+              <Route path='/JobChaser/Profile' element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>} />
               <Route path="*" element={<NoPage />} />
             </Routes>
           </main>

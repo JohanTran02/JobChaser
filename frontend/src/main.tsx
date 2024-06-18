@@ -11,11 +11,11 @@ import { Provider } from 'react-redux'
 ReactDOM.createRoot(document.getElementById('root') as HTMLDivElement).render(
   <React.StrictMode>
     <Provider store={store}>
-      <AuthProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <AuthProvider>
           <App />
-        </BrowserRouter>
-      </AuthProvider>
+        </AuthProvider>
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 )

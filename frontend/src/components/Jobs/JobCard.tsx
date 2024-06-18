@@ -4,14 +4,16 @@ import { useAppDispatch } from "../../redux/store";
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import { BookmarkIcon } from "@heroicons/react/24/outline";
-
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 export default function JobCard({ job }: { job: Job }) {
+    const navigate = useNavigate();
+    const [cookies] = useCookies(["token"]);
     const [bookMark, setBookMark] = useState<"saved" | "notSaved">("notSaved");
     const [bookMarkColor, setBookMarkColor] = useState<"fill-black" | "fill-white" | "fill-none">("fill-none")
     const dispatch = useAppDispatch();
     let theme = useContext(ThemeContext);
-
 
     useEffect(() => {
         if (bookMark === "saved") {
@@ -29,6 +31,7 @@ export default function JobCard({ job }: { job: Job }) {
     }
 
     function changeBookMark() {
+        if (!cookies.token) return navigate("/JobChaser/SignUp");
         if (bookMark === "notSaved") {
             setBookMark("saved")
         }
