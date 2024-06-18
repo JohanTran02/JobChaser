@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Job } from "../job.d";
 import { RootState } from "../redux/store";
 import JobDescription from "../components/Jobs/JobDescription";
-import SkeletonDescription from "../components/Menu/SkeletonDescription";
+import SkeletonDescription from "../components/Jobs/SkeletonDescription";
 
 export function useDebounce(value: string, seconds: number): string {
     const [debouncedValue, setDebouncedValue] = useState(value);
