@@ -96,6 +96,7 @@ export const JobSlice = createSlice({
     extraReducers(builder) {
         builder.addCase(fetchJobs.pending, (state) => {
             state.jobsStatus = "loading";
+            state.jobModalStatus = "closed";
         })
         builder.addCase(fetchJobs.fulfilled, (state, action: PayloadAction<Job[]>) => {
             state.jobsStatus = "fulfilled";

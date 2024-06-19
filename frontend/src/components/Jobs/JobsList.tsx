@@ -3,7 +3,7 @@ import { useContext, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useDebounceJob } from "../../Features/debounce";
 import { AppDispatch, RootState } from "../../redux/store";
-import { fetchJobs, setJobModalStatus } from "../../slices/jobSlice";
+import { fetchJobs } from "../../slices/jobSlice";
 import Spinner from "../Menu/Spinner";
 import JobCard from "./JobCard";
 import { ThemeContext } from "../../context/ThemeContext";
@@ -20,7 +20,7 @@ export default function JobsList() {
     useEffect(() => {
         if (jobsStatus.includes("idle")) {
             dispatch(fetchJobs(searchQuery))
-            dispatch(setJobModalStatus("closed"));
+            // dispatch(setJobModalStatus("closed"));
         }
     }, [searchQuery, jobsStatus, dispatch])
 

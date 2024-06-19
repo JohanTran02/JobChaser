@@ -1,12 +1,12 @@
 import JobsList from "../components/Jobs/JobsList";
-import Menu from "../components/Menu/Menu";
 import UserInfo from "../components/User/UserInfo";
+import UserMenu from "../components/User/UserMenu";
 
 export default function Profile() {
     return (
         <>
             <UserInfo />
-            <Menu />
+            <UserMenu />
             <JobsList />
         </>)
 }

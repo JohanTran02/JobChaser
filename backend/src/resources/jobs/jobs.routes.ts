@@ -13,13 +13,13 @@ router.use(auth);
 //PUT /jobs/:jobsId : Update a specific job
 //POST /jobs/userid : Create a new job for a specific user.
 //DELETE /jobs/:jobsId : Delete a specific job by Id. 
-//DELETE /jobs/users/:jobsId : Delete a job by a specific user. 
+//DELETE /jobs/users : Delete a job by a specific user. 
 
 router.get("/jobs", getJobs);
 router.get("/jobs/:jobsid", getJob);
 router.get("/jobs/users/:userid", getJobsByUser);
 router.put("/jobs/:jobsid", updateJob);
-router.post("/jobs/:userid", createJobByUser);
+router.post("/jobs/users", createJobByUser);
 router.delete("/jobs/:jobsid", deleteJob);
 router.delete("/jobs/users", deleteJobByUser);
 

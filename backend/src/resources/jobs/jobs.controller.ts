@@ -1,6 +1,11 @@
 import { prisma } from "../../db/connect";
 import { Request, Response } from "express";
 
+type Query = {
+    userid: string,
+    job_id: string
+}
+
 export async function getJobs(req: Request, res: Response) {
     try {
         const jobs = await prisma.jobs.findMany();
@@ -83,14 +88,14 @@ export async function updateJob(req: Request, res: Response) {
 }
 
 
-export async function createJobByUser(req: Request, res: Response) {
+export async function createJobByUser(req: Request<{}, {}, {}, Query>, res: Response) {
     try {
-        const { userid } = req.params;
-        const { job_id } = req.body;
+        const job_id = req.query.job_id;
+        const userid = parseInt(req.query.userid);
 
         const user = await prisma.user.findUnique({
             where: {
-                id: parseInt(userid)
+                id: userid
             },
         })
 
@@ -99,7 +104,7 @@ export async function createJobByUser(req: Request, res: Response) {
         const existingJob = await prisma.jobs.findFirst({
             where: {
                 job_id: job_id,
-                userid: parseInt(userid)
+                userid: userid
             },
         })
 
@@ -107,7 +112,7 @@ export async function createJobByUser(req: Request, res: Response) {
 
         const job = await prisma.jobs.create({
             data: {
-                userid: parseInt(userid),
+                userid: userid,
                 job_id: job_id
             }
         })
@@ -120,28 +125,29 @@ export async function createJobByUser(req: Request, res: Response) {
     }
 }
 
-type Query = {
-    userid: string,
-    jobsid: string
-}
-
 //TODO Gör en query här för email och jobsid som i getusers
 export async function deleteJobByUser(req: Request<{}, {}, {}, Query>, res: Response) {
     try {
 
-        const jobsid = req.query.jobsid || "";
+        const job_id = req.query.job_id;
         const userid = parseInt(req.query.userid);
 
         const user = await prisma.user.findUnique({
             where: {
-                id: userid
+                id: userid,
             },
-            select: {
-                jobs: true
-            }
         })
 
         if (!user) return res.status(404).json({ error: "User not found" });
+
+        const existingJob = await prisma.jobs.findFirst({
+            where: {
+                job_id: job_id,
+                userid: userid
+            }
+        })
+
+        if (!existingJob) return res.status(404).json({ error: "Job not found" });
 
         const jobs = await prisma.user.update({
             where: {
@@ -149,7 +155,7 @@ export async function deleteJobByUser(req: Request<{}, {}, {}, Query>, res: Resp
             },
             data: {
                 jobs: {
-                    delete: [{ id: parseInt(jobsid) }]
+                    delete: [{ job_id: job_id }]
                 },
             }
         })
