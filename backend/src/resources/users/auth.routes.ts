@@ -49,6 +49,9 @@ router.post("/login", async (req: Request, res: Response) => {
         const user = await prisma.user.findUnique({
             where: {
                 email: email
+            },
+            include: {
+                jobs: true
             }
         })
 
