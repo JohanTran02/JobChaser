@@ -4,11 +4,14 @@ import { useCookies } from "react-cookie";
 
 
 export default function NavItem({ href, name }: { href: string, name: string }) {
-    const [cookies, , removeCookie] = useCookies(["token"]);
+    const [cookies, , removeCookie] = useCookies(["token", "user"]);
     let navItem;
 
     if (name === "JobChaser") navItem = <Link to={href} className="text-2xl font-bold">{name}</Link>;
-    else if (name === "Sign Out") navItem = <Link to={href} onClick={() => removeCookie("token", options)}>{name}</Link>;
+    else if (name === "Sign Out") navItem = <Link to={href} onClick={() => {
+        removeCookie("token", options)
+        removeCookie("user", options)
+    }}>{name}</Link>;
     else navItem = <Link to={href}>{name}</Link>
 
     if (!cookies.token && name === "Sign Out" || !cookies.token && name === "Profile"

@@ -6,10 +6,11 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { BookmarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { jobsCreateFetch, jobsDeleteFetch } from "../../Features/Jobs/jobs";
 
 export default function JobCard({ job }: { job: Job }) {
     const navigate = useNavigate();
-    const [cookies] = useCookies(["token"]);
+    const [cookies] = useCookies(["token", "user"]);
     const [bookMark, setBookMark] = useState<"saved" | "notSaved">("notSaved");
     const [bookMarkColor, setBookMarkColor] = useState<"fill-black" | "fill-white" | "fill-none">("fill-none")
     const dispatch = useAppDispatch();
@@ -30,14 +31,16 @@ export default function JobCard({ job }: { job: Job }) {
         dispatch(setCurrentJob(id))
     }
 
-    function changeBookMark() {
-        if (!cookies.token) return navigate("/JobChaser/SignUp");
+    async function changeBookMark() {
+        if (!cookies.token && !cookies.user) return navigate("/JobChaser/SignUp");
         if (bookMark === "notSaved") {
             setBookMark("saved")
+            await jobsCreateFetch(cookies.user.id, String(job.id), cookies.token)
         }
         else {
             setBookMark("notSaved")
             setBookMarkColor("fill-none")
+            await jobsDeleteFetch(cookies.user.id, String(job.id), cookies.token)
         }
     }
     return (

@@ -19,8 +19,8 @@ router.get("/jobs", getJobs);
 router.get("/jobs/:jobsid", getJob);
 router.get("/jobs/users/:userid", getJobsByUser);
 router.put("/jobs/:jobsid", updateJob);
-router.post("/jobs/users", createJobByUser);
-router.delete("/jobs/:jobsid", deleteJob);
 router.delete("/jobs/users", deleteJobByUser);
+router.post("/jobs/users/:userid", createJobByUser);
+// router.delete("/jobs/:jobsid", deleteJob);
 
 export default router

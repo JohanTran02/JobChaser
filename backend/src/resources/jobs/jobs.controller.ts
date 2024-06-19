@@ -88,10 +88,10 @@ export async function updateJob(req: Request, res: Response) {
 }
 
 
-export async function createJobByUser(req: Request<{}, {}, {}, Query>, res: Response) {
+export async function createJobByUser(req: Request, res: Response) {
     try {
-        const job_id = req.query.job_id;
-        const userid = parseInt(req.query.userid);
+        const userid = parseInt(req.params.userid);
+        const job_id = req.body.job_id;
 
         const user = await prisma.user.findUnique({
             where: {

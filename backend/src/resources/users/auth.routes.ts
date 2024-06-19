@@ -73,7 +73,7 @@ router.post("/login", async (req: Request, res: Response) => {
             expiresIn: process.env.JWT_EXPIRES_IN || '1h',
         });
 
-        return res.json({ token });
+        return res.json({ token, user });
     }
     catch (error) {
         console.error("Error details:", error);

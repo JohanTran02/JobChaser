@@ -12,7 +12,7 @@ export default function SignInForm() {
     const navigate = useNavigate();
     const [errorModal, setErrorModal] = useState<boolean>(false);
     const [error, setError] = useState<string>("");
-    const [, setCookie] = useCookies(["token"]);
+    const [, setCookie] = useCookies(["token", "user"]);
     const onSignIn: SubmitHandler<IFormInput> = async (data) => {
         try {
             const response = await signInFetch(data);
@@ -23,6 +23,7 @@ export default function SignInForm() {
             }
             else {
                 setCookie("token", response.token, options)
+                setCookie("user", response.user, options)
                 navigate("/JobChaser/Jobs");
             }
         } catch (error) {
