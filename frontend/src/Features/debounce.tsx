@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Job } from "../job.d";
-import { RootState } from "../redux/store";
+import { Job, ModalStatus } from "../job.d";
 import JobDescription from "../components/Jobs/JobDescription";
 import SkeletonDescription from "../components/Jobs/SkeletonDescription";
 
@@ -19,19 +17,17 @@ export function useDebounce(value: string, seconds: number): string {
     return debouncedValue;
 }
 
-export function useDebounceJob(value: Job, seconds: number): JSX.Element {
-    const { jobModalStatus } = useSelector((state: RootState) => state.jobs)
-
+export function useDebounceJob(value: Job, status: ModalStatus, seconds: number): JSX.Element {
     const [debouncedJob, setDebouncedValue] = useState<JSX.Element>(<SkeletonDescription />);
 
     useEffect(() => {
         setDebouncedValue(<SkeletonDescription />)
         const handler = setTimeout(() => {
-            if (jobModalStatus.includes("open")) setDebouncedValue(<JobDescription currentJob={value} />);
+            if (status.includes("open")) setDebouncedValue(<JobDescription currentJob={value} />);
         }, seconds * 1000);
 
         return () => clearTimeout(handler)
-    }, [value, seconds, jobModalStatus]);
+    }, [value, seconds, status]);
 
     return debouncedJob;
 }

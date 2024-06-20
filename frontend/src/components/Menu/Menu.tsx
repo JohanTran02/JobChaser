@@ -1,4 +1,4 @@
-import { addTools, deleteTools, fetchJobsSearches, setInput, setSearchQuery } from "../../slices/jobSlice";
+import { fetchJobsSearches, setInput, setSearchQuery } from "../../slices/jobSlice";
 import { useContext, useEffect } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import { RootState, useAppDispatch } from "../../redux/store";
@@ -8,7 +8,7 @@ import { useDebounce } from "../../Features/debounce";
 
 export default function Menu() {
     const { suggestedModalStatus, searches, input } = useSelector((state: RootState) => state.jobs);
-    const filters = [["Sass"], ["React"], ["Vue"]];
+    // const filters = [["Sass"], ["React"], ["Vue"]];
     const dispatch = useAppDispatch();
     const debouncedInput = useDebounce(input, 0.4);
 
@@ -16,9 +16,9 @@ export default function Menu() {
         dispatch(fetchJobsSearches(debouncedInput))
     }, [debouncedInput, dispatch])
 
-    const toolChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.target.checked ? dispatch(addTools(e.target.value)) : dispatch(deleteTools(e.target.value));
-    }
+    // const toolChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     e.target.checked ? dispatch(addTools(e.target.value)) : dispatch(deleteTools(e.target.value));
+    // }
 
     const search = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -52,7 +52,7 @@ export default function Menu() {
                     <input className={`${theme} rounded-sm p-2 cursor-pointer`} type="submit" />
                 </form>
                 {suggestedModalStatus.includes("open") && searches && <SuggestedResults searches={searches} />}
-                <div>
+                {/* <div>
                     {
                         filters.map(([title]) => (
                             <label key={title} className="has-[:checked]:bg-red-500">
@@ -60,7 +60,7 @@ export default function Menu() {
                             </label>
                         ))
                     }
-                </div>
+                </div> */}
             </div>
         </>
     );

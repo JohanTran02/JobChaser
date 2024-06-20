@@ -8,6 +8,7 @@ export interface Job {
     id: number,
     employer: {
         name: string,
+        url: string
     },
     logo_url: string,
     headline: string,
@@ -15,26 +16,6 @@ export interface Job {
         text: string,
         text_formatted: string,
     },
-    publication_date: string,
-    conditions: string,
-    salary_type: string,
-    occupation: string,
-    workplace_address: {
-        municipality: string
-    }
-}
-
-export interface SavedJob {
-    application_deadline: string,
-    application_details: {
-        url: string
-    },
-    id: number,
-    employer: {
-        name: string,
-    },
-    logo_url: string,
-    headline: string,
     publication_date: string,
     conditions: string,
     salary_type: string,

@@ -1,8 +1,8 @@
 //TODO Fixa fetches med jobb 
 
-import { SavedJob } from "../../job.d";
+import { Job } from "../../job.d";
 
-export async function jobsCreateFetch(userid: string, job_id: string, token: string, job_info?: SavedJob) {
+export async function jobsCreateFetch(userid: string, job_id: string, token: string, job_info?: Job) {
     try {
         const response = await fetch(`http://localhost:3000/api/jobs/users/${userid}`, {
             method: "POST",

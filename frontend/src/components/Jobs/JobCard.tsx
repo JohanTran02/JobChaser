@@ -1,5 +1,5 @@
-import { Job, SavedJob } from "../../job.d";
-import { setCurrentJob } from "../../slices/jobSlice";
+import { Job } from "../../job.d";
+import { fetchSavedJobs, setCurrentJob } from "../../slices/jobSlice";
 import { useAppDispatch } from "../../redux/store";
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
@@ -8,10 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { jobsCreateFetch, jobsDeleteFetch } from "../../Features/Jobs/jobs";
 
-export default function JobCard({ job }: { job: Job }) {
+export default function JobCard({ job, savedStatus }: { job: Job, savedStatus: "saved" | "notSaved" }) {
     const navigate = useNavigate();
+    const [bookMark, setBookMark] = useState<"saved" | "notSaved">(savedStatus);
     const [cookies] = useCookies(["token", "user"]);
-    const [bookMark, setBookMark] = useState<"saved" | "notSaved">("notSaved");
     const [bookMarkColor, setBookMarkColor] = useState<"fill-black" | "fill-white" | "fill-none">("fill-none")
     const dispatch = useAppDispatch();
     let theme = useContext(ThemeContext);
@@ -35,14 +35,16 @@ export default function JobCard({ job }: { job: Job }) {
         if (!cookies.token && !cookies.user) return navigate("/JobChaser/SignUp");
         if (bookMark === "notSaved") {
             setBookMark("saved")
-            await jobsCreateFetch(cookies.user.id, String(job.id), cookies.token, job as SavedJob)
+            await jobsCreateFetch(cookies.user.id, String(job.id), cookies.token, job)
         }
         else {
             setBookMark("notSaved")
             setBookMarkColor("fill-none")
             await jobsDeleteFetch(cookies.user.id, String(job.id), cookies.token)
         }
+        dispatch(fetchSavedJobs({ userid: cookies.user.id, token: cookies.token }))
     }
+
     return (
         <>
             <li key={job.id} className={`${theme} rounded-md p-2 cursor-pointer`}>

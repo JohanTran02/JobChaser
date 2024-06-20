@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { JobSuggestions, Job, SavedJob } from '../job.d'
+import { JobSuggestions, Job } from '../job.d'
 import { FetchStatus, ModalStatus } from '../job.d'
 
 
@@ -8,15 +8,16 @@ export interface JobState {
     input: string,
     tools: string[],
     jobs: Job[],
-    savedJobs: SavedJob[],
+    savedJobs: Job[],
     currentJob: Job,
-    savedCurrentJob: SavedJob,
+    savedCurrentJob: Job,
     searchQuery: string,
     jobsStatus: FetchStatus,
     savedJobsStatus: FetchStatus,
     searchStatus: FetchStatus,
     searches: JobSuggestions[],
     jobModalStatus: ModalStatus,
+    savedJobModalStatus: ModalStatus,
     suggestedModalStatus: ModalStatus
     error: string | null | undefined
 }
@@ -27,10 +28,11 @@ const initialState: JobState = {
     jobs: [],
     savedJobs: [],
     currentJob: {} as Job,
-    savedCurrentJob: {} as SavedJob,
+    savedCurrentJob: {} as Job,
     searchQuery: "",
     jobsStatus: "idle",
     savedJobsStatus: "idle",
+    savedJobModalStatus: "closed",
     searchStatus: "idle",
     searches: [],
     jobModalStatus: "closed",
@@ -67,7 +69,7 @@ export const fetchJobsSearches = createAsyncThunk(
     }
 )
 
-export const fetchSavedJobs = createAsyncThunk<SavedJob[], { userid: string, token: string }>(
+export const fetchSavedJobs = createAsyncThunk<Job[], { userid: string, token: string }>(
     "jobs/fetchSavedJobs",
     async ({ userid, token }) => {
         await wait(0.5);
@@ -80,7 +82,7 @@ export const fetchSavedJobs = createAsyncThunk<SavedJob[], { userid: string, tok
         });
 
         const result = await response.json();
-        const data: SavedJob[] = result;
+        const data: Job[] = result;
 
         return data;
     }
@@ -101,6 +103,10 @@ export const JobSlice = createSlice({
         setCurrentJob: (state, action: PayloadAction<number>) => {
             const currentJob = state.jobs.filter((job: Job) => job.id === action.payload)[0]
             state.currentJob = currentJob;
+        },
+        setSavedCurrentJob: (state, action: PayloadAction<number>) => {
+            const currentJob = state.savedJobs.filter((job: Job) => job.id === action.payload)[0]
+            state.savedCurrentJob = currentJob;
         },
         setJobModalStatus: (state, action: PayloadAction<ModalStatus>) => {
             state.jobModalStatus = action.payload;
@@ -138,20 +144,18 @@ export const JobSlice = createSlice({
         })
         builder.addCase(fetchSavedJobs.pending, (state) => {
             state.savedJobsStatus = "loading";
-            state.jobModalStatus = "closed";
         })
-        builder.addCase(fetchSavedJobs.fulfilled, (state, action: PayloadAction<SavedJob[]>) => {
+        builder.addCase(fetchSavedJobs.fulfilled, (state, action: PayloadAction<Job[]>) => {
             state.savedJobsStatus = "fulfilled";
             state.savedJobs = action.payload;
 
             const currentJob = state.savedJobs[0];
+            state.savedCurrentJob = currentJob;
             if (state.savedJobs.length < 1) {
-                state.savedCurrentJob = currentJob;
-                state.jobModalStatus = "closed";
+                state.savedJobModalStatus = "closed";
             }
             else {
-                state.savedCurrentJob = currentJob;
-                state.jobModalStatus = "open";
+                state.savedJobModalStatus = "open";
             }
         })
         builder.addCase(fetchSavedJobs.rejected, (state, action) => {
@@ -180,6 +184,7 @@ export const {
     setCurrentJob,
     setJobModalStatus,
     setSuggestedModalStatus,
+    setSavedCurrentJob
 } = JobSlice.actions
 
 export default JobSlice.reducer;

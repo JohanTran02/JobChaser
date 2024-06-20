@@ -9,7 +9,7 @@ export default function JobDescription({ currentJob }: { currentJob: Job }) {
                 <h2 className="text-lg font-bold">{currentJob.employer.name}</h2>
                 <h3>{currentJob.workplace_address.municipality}</h3>
                 <button>
-                    <a href={`${currentJob.application_details.url}`} target="_blank" rel="noopener noreferrer">Ansök till företaget</a>
+                    <a href={`${currentJob.application_details.url || currentJob.employer.url}`} target="_blank" rel="noopener noreferrer">Ansök till företaget</a>
                 </button>
             </div>
             <article className="overflow-x-hidden whitespace-pre-line [&_p]:pb-2 [&_strong]:text-lg ">
