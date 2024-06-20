@@ -1,3 +1,11 @@
+## Svagheter
+
+Komponenter Savedjobs och Jobslist har samma kod med små justeringar. det gör att om man gör en ändring på en behöver jag ändra på den andra eftersom de hanterar samma logik för att spara jobb. komponenterna och funktionerna kunde ha faktoriserats för att enklare hantera dataflödet för props. Projektet använder React Router som gör det möjligt för page routing. Nackdelen är att logiken för att ändra page route är utspritt mellan olika komponenter i projektet som gör det tidskrävande och komplicerat att navigera mellan filer. Jämfört med Next.js är page routing inbyggt i Reactramverket och rutterna är en del av filträdet som gör det att enklare hitta det man letar efter. Dessutom används hanterar ramverket renderingen och page routing i bakgrunden och den huvudsakliga komponent för navigering mellan olika sidor kallas för Link till skillnad från React Router har flera olika komponenter som Outlet, Link och Navigate för att åstadkomma samma funktionalitet.
+
+## Styrkor
+
+Koden är relativt modulärt genom uppdelningen av funktioner och komponenter. Ifall en ny funktionalitet implementeras för hemsidan som som exempelvis spara jobb för en användare var det möjligt att återanvända liknande funktionalitet från den befintliga koden. Det effektiviserar arbetet och gör koden enklare att förstå genom att göra det konsekvent. Savedjobs och Jobslist är samma komponentet med några få justeringar för att anpassa till deras funktionalitet som animationer och konditionell rendering för att visa den rätta fullständiga beskrivningen på ett jobb från listan. Projektet använder även Redux Toolkit för att hantera states globalt som gör det smidigare att ändra och hämta states mellan olika komponenter utan att tänka. Reducers blir simplifierade med Immer som gör det möjligt att ändra på immutable värden.
+
 # Vecka 10
 
 ## Allmänt om ramverket React: Hur/Varför uppkom det? Vad är dess kännetecken?
