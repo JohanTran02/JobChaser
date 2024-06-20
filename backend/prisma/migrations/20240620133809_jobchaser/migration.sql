@@ -13,6 +13,7 @@ CREATE TABLE "Jobs" (
     "id" SERIAL NOT NULL,
     "userid" INTEGER NOT NULL,
     "job_id" TEXT NOT NULL,
+    "job_info" JSONB,
 
     CONSTRAINT "Jobs_pkey" PRIMARY KEY ("id")
 );

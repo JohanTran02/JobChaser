@@ -50,9 +50,6 @@ router.post("/login", async (req: Request, res: Response) => {
             where: {
                 email: email
             },
-            include: {
-                jobs: true
-            }
         })
 
         if (!user) {

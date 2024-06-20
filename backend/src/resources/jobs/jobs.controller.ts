@@ -44,18 +44,26 @@ export async function getJobsByUser(req: Request, res: Response) {
     try {
         const { userid } = req.params;
 
-        const jobs = await prisma.user.findUnique({
+        const user = await prisma.user.findUnique({
             where: {
-                id: parseInt(userid)
+                id: parseInt(userid),
+            },
+        })
+
+        if (!user) return res.status(404).json({ error: "User not found" });
+
+        const jobs = await prisma.jobs.findMany({
+            where: {
+                userid: parseInt(userid)
             },
             select: {
-                jobs: true
+                job_info: true
             }
         })
 
-        if (!jobs) return res.status(404).json({ error: "User not found" });
+        const jobsIntoArray = jobs.map(job => job.job_info) || []
 
-        res.status(200).json(jobs)
+        res.status(200).json(jobsIntoArray)
     }
     catch (error) {
         console.error("Error details:", error);
@@ -91,7 +99,7 @@ export async function updateJob(req: Request, res: Response) {
 export async function createJobByUser(req: Request, res: Response) {
     try {
         const userid = parseInt(req.params.userid);
-        const job_id = req.body.job_id;
+        const { job_id, job_info } = req.body;
 
         const user = await prisma.user.findUnique({
             where: {
@@ -113,7 +121,8 @@ export async function createJobByUser(req: Request, res: Response) {
         const job = await prisma.jobs.create({
             data: {
                 userid: userid,
-                job_id: job_id
+                job_id: job_id,
+                job_info: job_info
             }
         })
 
@@ -155,7 +164,7 @@ export async function deleteJobByUser(req: Request<{}, {}, {}, Query>, res: Resp
             },
             data: {
                 jobs: {
-                    delete: [{ job_id: job_id }]
+                    deleteMany: [{ job_id: job_id, userid: userid }]
                 },
             }
         })

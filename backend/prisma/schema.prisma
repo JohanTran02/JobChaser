@@ -16,8 +16,9 @@ model User {
 }
 
 model Jobs {
-  id     Int    @id @default(autoincrement())
-  userid Int
-  job_id String
-  user   User   @relation(fields: [userid], references: [id])
+  id       Int    @id @default(autoincrement())
+  userid   Int
+  job_id   String
+  job_info Json?
+  user     User   @relation(fields: [userid], references: [id])
 }
