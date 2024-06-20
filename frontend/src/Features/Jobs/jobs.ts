@@ -1,6 +1,8 @@
 //TODO Fixa fetches med jobb 
 
-export async function jobsCreateFetch(userid: string, job_id: string, token: string) {
+import { SavedJob } from "../../job.d";
+
+export async function jobsCreateFetch(userid: string, job_id: string, token: string, job_info?: SavedJob) {
     try {
         const response = await fetch(`http://localhost:3000/api/jobs/users/${userid}`, {
             method: "POST",
@@ -8,7 +10,7 @@ export async function jobsCreateFetch(userid: string, job_id: string, token: str
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
-            body: JSON.stringify({ job_id: job_id })
+            body: JSON.stringify({ job_id, job_info })
         });
 
         const result = await response.json();

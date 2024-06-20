@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { JobSuggestions, Job } from '../job.d'
+import { JobSuggestions, Job, SavedJob } from '../job.d'
 import { FetchStatus, ModalStatus } from '../job.d'
 
 
@@ -8,9 +8,12 @@ export interface JobState {
     input: string,
     tools: string[],
     jobs: Job[],
+    savedJobs: SavedJob[],
     currentJob: Job,
+    savedCurrentJob: SavedJob,
     searchQuery: string,
     jobsStatus: FetchStatus,
+    savedJobsStatus: FetchStatus,
     searchStatus: FetchStatus,
     searches: JobSuggestions[],
     jobModalStatus: ModalStatus,
@@ -22,9 +25,12 @@ const initialState: JobState = {
     input: "",
     tools: [],
     jobs: [],
+    savedJobs: [],
     currentJob: {} as Job,
+    savedCurrentJob: {} as SavedJob,
     searchQuery: "",
     jobsStatus: "idle",
+    savedJobsStatus: "idle",
     searchStatus: "idle",
     searches: [],
     jobModalStatus: "closed",
@@ -57,6 +63,25 @@ export const fetchJobsSearches = createAsyncThunk(
         const response = await fetch(`https://jobsearch.api.jobtechdev.se/complete?q=${search}`)
         const json = await response.json();
         const data: JobSuggestions[] = json.typeahead;
+        return data;
+    }
+)
+
+export const fetchSavedJobs = createAsyncThunk<SavedJob[], { userid: string, token: string }>(
+    "jobs/fetchSavedJobs",
+    async ({ userid, token }) => {
+        await wait(0.5);
+        const response = await fetch(`http://localhost:3000/api/jobs/users/${userid}`, {
+            method: "GET",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+        });
+
+        const result = await response.json();
+        const data: SavedJob[] = result;
+
         return data;
     }
 )
@@ -108,7 +133,29 @@ export const JobSlice = createSlice({
             state.jobModalStatus = "open";
         })
         builder.addCase(fetchJobs.rejected, (state, action) => {
-            state.jobsStatus = "rejected";
+            state.savedJobsStatus = "rejected";
+            state.error = action.error.message;
+        })
+        builder.addCase(fetchSavedJobs.pending, (state) => {
+            state.savedJobsStatus = "loading";
+            state.jobModalStatus = "closed";
+        })
+        builder.addCase(fetchSavedJobs.fulfilled, (state, action: PayloadAction<SavedJob[]>) => {
+            state.savedJobsStatus = "fulfilled";
+            state.savedJobs = action.payload;
+
+            const currentJob = state.savedJobs[0];
+            if (state.savedJobs.length < 1) {
+                state.savedCurrentJob = currentJob;
+                state.jobModalStatus = "closed";
+            }
+            else {
+                state.savedCurrentJob = currentJob;
+                state.jobModalStatus = "open";
+            }
+        })
+        builder.addCase(fetchSavedJobs.rejected, (state, action) => {
+            state.savedJobsStatus = "rejected";
             state.error = action.error.message;
         })
         builder.addCase(fetchJobsSearches.pending, (state) => {

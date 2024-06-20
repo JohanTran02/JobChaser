@@ -11,7 +11,7 @@ export default function UserInfo() {
         <>
             <div className={`${theme} lg:mx-32 rounded-md`}>
                 {cookies.user.name ? cookies.user.name : `Användare ${cookies.user.id}`}
-                <p>{`Sparade Jobb: ${cookies.user.jobs.length}`}</p>
+                <p>{`Sparade Jobb: ${"test"}`}</p>
             </div>
         </>
     )
